@@ -1,0 +1,42 @@
+name: mu
+base: core18
+version: '1.2'
+summary: Email indexing and searching with an Emacs-based UI
+description: |
+  This is my-snap's description. You have a paragraph or two to tell the
+  most important story about your snap. Keep it under 100 words though,
+  we live in tweetspace and your description wants to look good in the snap
+  store.
+
+grade: stable
+confinement: strict
+
+apps:
+  mu:
+    command: mu
+    plugs:
+      - home
+
+parts:
+  mu:
+    plugin: autotools
+    source: https://github.com/djcb/mu
+    source-type: git
+    source-tag: '1.2'
+    build-packages:
+      - intltool
+      - autoconf
+      - automake
+      - libglib2.0-dev
+      - libjson-glib-dev
+      - libgmime-3.0-dev
+      - libxapian-dev
+      - texinfo
+    build-snaps:
+      - emacs
+    stage-packages:
+      - libassuan0
+      - libgmime-3.0-0
+      - libgpgme11
+      - libxapian30
+      - libjson-glib-1.0-0
