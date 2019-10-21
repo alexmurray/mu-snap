@@ -1,12 +1,27 @@
 name: mu
 base: core18
 version: '1.2'
-summary: Email indexing and searching with an Emacs-based UI
+summary: Maildir indexer/searcher with an Emacs UI
 description: |
-  This is my-snap's description. You have a paragraph or two to tell the
-  most important story about your snap. Keep it under 100 words though,
-  we live in tweetspace and your description wants to look good in the snap
-  store.
+  mu is a tool for dealing with e-mail messages stored in the
+  Maildir-format, on Unix-like systems. mu’s main purpose is to help you to
+  find the messages you need, quickly; in addition, it allows you to view
+  messages, extract attachments, create new maildirs and more.
+
+  Features:
+  * fast indexing for Maildir, Maildir+ and Maildir-on-VFAT
+  * search for messages based on the sender, receiver, subject, date-range,
+    size, priority, words in message, flags (signed, encrypted, new,
+    replied, has-attachment,…), message-id, maildir, tags, attachment
+    (name, mime-type, text) and more
+  * support for encrypted and signed messages
+  * command-line tools for indexing, searching, viewing, adding/removing
+    messages, extracting attachments, exporting/searching address lists,
+    creating maildirs
+  * accent/case normalization - so angstrom matches Ångström
+  * can be integrated with other e-mail clients such as mutt and
+    Wanderlust.
+  * mu4e, an emacs-based e-mail client based on mu
 
 grade: stable
 confinement: strict
