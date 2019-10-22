@@ -1,4 +1,4 @@
-name: mu
+name: maildir-utils
 base: core18
 version: '1.2'
 summary: Maildir indexer/searcher with an Emacs UI
