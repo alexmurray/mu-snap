@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# setup a local writable GNUPGHOME
+if [ -z "$SNAP_USER_DATA" ]; then
+    echo "SNAP_USER_DATA not set"
+    exit 1
+fi
+
+uid="$(id -u)"
+host_home=$(getent passwd "$uid" | cut -d ':' -f 6)
+host_gpg="$host_home/.gnupg"
+if [ ! -d "$host_gpg" ]; then
+    echo "'$host_gpg' does not exist"
+    exit 0
+fi
+
+# create using the actual snap version path rather than current
+dest="$SNAP_USER_DATA/.gnupg"
+# always recreate to avoid problems with stale key db's etc
+rm -rf "$dest"
+mkdir -m 0700 "$dest"
+cp -r --preserve=mode "$host_gpg"/* "$dest"
+rm -f "$dest"/S.*    # remove any sockets since we can't access them anyway
+rm -f "$dest"/*.conf # remove any config files since we will generate our own
+
+cd "$SNAP_USER_DATA/../current"
+# use the current symlink for GNUPGHOME
+SNAP_CURRENT="$(pwd)"
+export GNUPGHOME="$SNAP_CURRENT/.gnupg"
+
+# ensure config's are setup correctly
+cat > "$GNUPGHOME/gpg-agent.conf" <<EOM
+homedir $GNUPGHOME
+EOM
+
+cat > "$GNUPGHOME/gpg.conf" <<EOM
+homedir $GNUPGHOME
+EOM
+
+if [ "$SNAP_ARCH" = "amd64" ]; then
+  ARCH="x86_64-linux-gnu"
+elif [ "$SNAP_ARCH" = "armhf" ]; then
+  ARCH="arm-linux-gnueabihf"
+elif [ "$SNAP_ARCH" = "arm64" ]; then
+  ARCH="aarch64-linux-gnu"
+else
+  ARCH="$SNAP_ARCH-linux-gnu"
+fi
+
+export LD_LIBRARY_PATH="$SNAP/usr/lib/$ARCH"
+
+exec "$@"

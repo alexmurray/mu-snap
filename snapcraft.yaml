@@ -28,9 +28,13 @@ confinement: strict
 
 apps:
   mu:
-    command: mu
+    command: bin/mu
+    command-chain:
+      - setup-env
     plugs:
       - home
+      - gpg-keys     # for gpg key access
+      - network-bind # for gpg-agent
 
 parts:
   mu:
@@ -55,3 +59,41 @@ parts:
       - libgpgme11
       - libxapian30
       - libjson-glib-1.0-0
+      - gpg
+      - gpg-agent
+      - gpgconf
+      - gpgsm
+      - gpgv
+      - pinentry-curses
+      - bsdutils
+  command-chain:
+    source: .
+    plugin: dump
+    stage:
+      - setup-env
+
+# found with gpgconf --list-dirs
+passthrough:
+ layout:
+  /etc/gnupg:
+    bind: $SNAP/etc/gnupg
+  /usr/bin/dirmngr:
+    bind-file: $SNAP/usr/bin/dirmngr
+  /usr/bin/gpg:
+    bind-file: $SNAP/usr/bin/gpg
+  /usr/bin/gpg-agent:
+    bind-file: $SNAP/usr/bin/gpg-agent
+  /usr/bin/gpg-connect-agent:
+    bind-file: $SNAP/usr/bin/gpg-connect-agent
+  /usr/bin/gpgconf:
+    bind-file: $SNAP/usr/bin/gpgconf
+  /usr/bin/gpgsm:
+    bind-file: $SNAP/usr/bin/gpgsm
+  /usr/bin/gpgv:
+    bind-file: $SNAP/usr/bin/gpgv
+  /usr/bin/pinentry:
+    bind-file: $SNAP/usr/bin/pinentry-curses
+  /usr/lib/gnupg:
+    bind: $SNAP/usr/lib/gnupg
+  /usr/share/gnupg:
+    bind: $SNAP/usr/share/gnupg
