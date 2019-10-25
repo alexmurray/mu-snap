@@ -37,6 +37,9 @@ cat > "$GNUPGHOME/gpg.conf" <<EOM
 homedir $GNUPGHOME
 EOM
 
+# also make sure GPG_TTY is set since we likely don't have one :/
+export GPG_TTY=$(tty)
+
 if [ "$SNAP_ARCH" = "amd64" ]; then
   ARCH="x86_64-linux-gnu"
 elif [ "$SNAP_ARCH" = "armhf" ]; then
