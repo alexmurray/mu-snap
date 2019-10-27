@@ -35,6 +35,9 @@ apps:
       - home
       - gpg-keys     # for gpg key access
       - network-bind # for gpg-agent
+      - desktop      # for various pinentry frontends
+      - x11
+      - wayland
 
 parts:
   mu:
@@ -64,14 +67,13 @@ parts:
       - gpgconf
       - gpgsm
       - gpgv
-      - pinentry-curses
-      - bsdutils
+      - pinentry-gnome3
+      - rsync
   command-chain:
     source: .
     plugin: dump
     stage:
       - setup-env
-
 # found with gpgconf --list-dirs
 passthrough:
  layout:
@@ -92,7 +94,7 @@ passthrough:
   /usr/bin/gpgv:
     bind-file: $SNAP/usr/bin/gpgv
   /usr/bin/pinentry:
-    bind-file: $SNAP/usr/bin/pinentry-curses
+    bind-file: $SNAP/usr/bin/pinentry-gnome3
   /usr/lib/gnupg:
     bind: $SNAP/usr/lib/gnupg
   /usr/share/gnupg:

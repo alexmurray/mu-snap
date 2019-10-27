@@ -16,11 +16,11 @@ fi
 
 # create using the actual snap version path rather than current
 dest="$SNAP_USER_DATA/.gnupg"
-# always recreate to avoid problems with stale key db's etc
-rm -rf "$dest"
-mkdir -m 0700 "$dest"
-cp -r --preserve=mode "$host_gpg"/* "$dest"
-rm -f "$dest"/S.*    # remove any sockets since we can't access them anyway
+# when exists copy everything but sockets again to avoid problems with stale key db's etc
+if [ ! -d "$dest" ]; then
+  mkdir -m 0700 "$dest"
+fi
+rsync "$host_gpg"/* "$dest"
 rm -f "$dest"/*.conf # remove any config files since we will generate our own
 
 cd "$SNAP_USER_DATA/../current"
