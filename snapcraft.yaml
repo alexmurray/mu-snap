@@ -38,6 +38,7 @@ apps:
       - desktop      # for various pinentry frontends
       - x11
       - wayland
+      - password-manager-service # for pinentry-gnome3
 
 parts:
   mu:
