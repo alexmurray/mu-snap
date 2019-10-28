@@ -20,7 +20,7 @@ dest="$SNAP_USER_DATA/.gnupg"
 if [ ! -d "$dest" ]; then
   mkdir -m 0700 "$dest"
 fi
-rsync "$host_gpg"/* "$dest"
+rsync -r -q "$host_gpg"/* "$dest"
 rm -f "$dest"/*.conf # remove any config files since we will generate our own
 
 cd "$SNAP_USER_DATA/../current"
