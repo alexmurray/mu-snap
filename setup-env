@@ -52,8 +52,8 @@ else
 fi
 export LD_LIBRARY_PATH="$SNAP/usr/lib/$ARCH"
 
-# and finally setup TMPDIR so when saving attachments etc they can be
-# viewed easily from mu4e as otherwise /tmp is private to the mu snap
+# and finally setup TMPDIR so when viewing attachments etc they can be seen
+# from mu4e etc as otherwise /tmp is private to the mu snap
 export TMPDIR="$SNAP_USER_DATA/tmp"
 mkdir -p "$TMPDIR"
 
