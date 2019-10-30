@@ -40,6 +40,7 @@ EOM
 # also make sure GPG_TTY is set since we likely don't have one :/
 export GPG_TTY=$(tty)
 
+# set an appropriate LD_LIBRARY_PATH for gpg
 if [ "$SNAP_ARCH" = "amd64" ]; then
   ARCH="x86_64-linux-gnu"
 elif [ "$SNAP_ARCH" = "armhf" ]; then
@@ -49,7 +50,11 @@ elif [ "$SNAP_ARCH" = "arm64" ]; then
 else
   ARCH="$SNAP_ARCH-linux-gnu"
 fi
-
 export LD_LIBRARY_PATH="$SNAP/usr/lib/$ARCH"
+
+# and finally setup TMPDIR so when saving attachments etc they can be
+# viewed easily from mu4e as otherwise /tmp is private to the mu snap
+export TMPDIR="$SNAP_USER_DATA/tmp"
+mkdir -p "$TMPDIR"
 
 exec "$@"
