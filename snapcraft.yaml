@@ -1,6 +1,6 @@
 name: maildir-utils
 base: core18
-version: '1.2'
+adopt-info: mu
 summary: Maildir indexer/searcher with an Emacs UI
 description: |
   mu is a tool for dealing with e-mail messages stored in the
@@ -23,7 +23,6 @@ description: |
     Wanderlust.
   * mu4e, an emacs-based e-mail client based on mu
 
-grade: stable
 confinement: strict
 
 apps:
@@ -45,7 +44,10 @@ parts:
     plugin: autotools
     source: https://github.com/djcb/mu
     source-type: git
-    source-tag: '1.2'
+    override-build: |
+      snapcraftctl build
+      snapcraftctl set-version "$(git describe --tags)"
+      snapcraftctl set-grade devel
     build-packages:
       - intltool
       - autoconf
@@ -76,27 +78,26 @@ parts:
     stage:
       - setup-env
 # found with gpgconf --list-dirs
-passthrough:
- layout:
-  /etc/gnupg:
-    bind: $SNAP/etc/gnupg
-  /usr/bin/dirmngr:
-    bind-file: $SNAP/usr/bin/dirmngr
-  /usr/bin/gpg:
-    bind-file: $SNAP/usr/bin/gpg
-  /usr/bin/gpg-agent:
-    bind-file: $SNAP/usr/bin/gpg-agent
-  /usr/bin/gpg-connect-agent:
-    bind-file: $SNAP/usr/bin/gpg-connect-agent
-  /usr/bin/gpgconf:
-    bind-file: $SNAP/usr/bin/gpgconf
-  /usr/bin/gpgsm:
-    bind-file: $SNAP/usr/bin/gpgsm
-  /usr/bin/gpgv:
-    bind-file: $SNAP/usr/bin/gpgv
-  /usr/bin/pinentry:
-    bind-file: $SNAP/usr/bin/pinentry-gnome3
-  /usr/lib/gnupg:
-    bind: $SNAP/usr/lib/gnupg
-  /usr/share/gnupg:
-    bind: $SNAP/usr/share/gnupg
+layout:
+ /etc/gnupg:
+   bind: $SNAP/etc/gnupg
+ /usr/bin/dirmngr:
+   bind-file: $SNAP/usr/bin/dirmngr
+ /usr/bin/gpg:
+   bind-file: $SNAP/usr/bin/gpg
+ /usr/bin/gpg-agent:
+   bind-file: $SNAP/usr/bin/gpg-agent
+ /usr/bin/gpg-connect-agent:
+   bind-file: $SNAP/usr/bin/gpg-connect-agent
+ /usr/bin/gpgconf:
+   bind-file: $SNAP/usr/bin/gpgconf
+ /usr/bin/gpgsm:
+   bind-file: $SNAP/usr/bin/gpgsm
+ /usr/bin/gpgv:
+   bind-file: $SNAP/usr/bin/gpgv
+ /usr/bin/pinentry:
+   bind-file: $SNAP/usr/bin/pinentry-gnome3
+ /usr/lib/gnupg:
+   bind: $SNAP/usr/lib/gnupg
+ /usr/share/gnupg:
+   bind: $SNAP/usr/share/gnupg
