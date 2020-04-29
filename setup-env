@@ -1,44 +1,46 @@
 #!/bin/sh
 
-# setup a local writable GNUPGHOME
 if [ -z "$SNAP_USER_DATA" ]; then
     echo "SNAP_USER_DATA not set"
     exit 1
 fi
 
-uid="$(id -u)"
-host_home=$(getent passwd "$uid" | cut -d ':' -f 6)
-host_gpg="$host_home/.gnupg"
-if [ ! -d "$host_gpg" ]; then
-    echo "'$host_gpg' does not exist"
-    exit 0
-fi
+# setup a local writable GNUPGHOME if gpg-keys interface is connected
+if snapctl is-connected gpg-keys; then
+    uid="$(id -u)"
+    host_home=$(getent passwd "$uid" | cut -d ':' -f 6)
+    host_gpg="$host_home/.gnupg"
+    if [ ! -d "$host_gpg" ]; then
+        echo "'$host_gpg' does not exist"
+        exit 0
+    fi
 
-# create using the actual snap version path rather than current
-dest="$SNAP_USER_DATA/.gnupg"
-# when exists copy everything but sockets again to avoid problems with stale key db's etc
-if [ ! -d "$dest" ]; then
-  mkdir -m 0700 "$dest"
-fi
-rsync -r -q "$host_gpg"/* "$dest"
-rm -f "$dest"/*.conf # remove any config files since we will generate our own
+    # create using the actual snap version path rather than current
+    dest="$SNAP_USER_DATA/.gnupg"
+    # when exists copy everything but sockets again to avoid problems with stale key db's etc
+    if [ ! -d "$dest" ]; then
+        mkdir -m 0700 "$dest"
+    fi
+    rsync -r -q "$host_gpg"/* "$dest" 2>/dev/null
+    rm -f "$dest"/*.conf # remove any config files since we will generate our own
 
-cd "$SNAP_USER_DATA/../current"
-# use the current symlink for GNUPGHOME
-SNAP_CURRENT="$(pwd)"
-export GNUPGHOME="$SNAP_CURRENT/.gnupg"
+    cd "$SNAP_USER_DATA/../current"
+    # use the current symlink for GNUPGHOME
+    SNAP_CURRENT="$(pwd)"
+    export GNUPGHOME="$SNAP_CURRENT/.gnupg"
 
-# ensure config's are setup correctly
-cat > "$GNUPGHOME/gpg-agent.conf" <<EOM
+    # ensure config's are setup correctly
+    cat > "$GNUPGHOME/gpg-agent.conf" <<EOM
 homedir $GNUPGHOME
 EOM
 
-cat > "$GNUPGHOME/gpg.conf" <<EOM
+    cat > "$GNUPGHOME/gpg.conf" <<EOM
 homedir $GNUPGHOME
 EOM
 
-# also make sure GPG_TTY is set since we likely don't have one :/
-export GPG_TTY=$(tty)
+    # also make sure GPG_TTY is set since we likely don't have one :/
+    export GPG_TTY=$(tty)
+fi
 
 # set an appropriate LD_LIBRARY_PATH for gpg
 if [ "$SNAP_ARCH" = "amd64" ]; then
