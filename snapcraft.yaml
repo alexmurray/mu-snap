@@ -24,7 +24,7 @@ description: |
   * mu4e, an emacs-based e-mail client based on mu
 
 confinement: strict
-grade: stable
+grade: devel
 
 apps:
   mu:
@@ -45,7 +45,6 @@ parts:
     plugin: autotools
     source: https://github.com/djcb/mu
     source-type: git
-    source-tag: "1.4.3"
     override-build: |
       snapcraftctl build
       snapcraftctl set-version "$(git describe --tags)"
