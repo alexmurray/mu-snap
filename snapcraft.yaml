@@ -45,7 +45,7 @@ parts:
     plugin: autotools
     source: https://github.com/djcb/mu
     source-type: git
-    source-tag: "1.4.5"
+    source-tag: "1.4.6"
     override-build: |
       snapcraftctl build
       snapcraftctl set-version "$(git describe --tags)"
