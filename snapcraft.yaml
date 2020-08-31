@@ -70,6 +70,8 @@ parts:
       - gpgv
       - pinentry-gnome3
       - rsync
+    build-environment:
+      - CFLAGS: "$CFLAGS -O2"
   command-chain:
     source: .
     plugin: dump
