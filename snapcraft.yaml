@@ -24,7 +24,7 @@ description: |
 
 confinement: strict
 grade: stable
-version: 1.4.14
+version: 1.4.15
 
 apps:
   mu:
