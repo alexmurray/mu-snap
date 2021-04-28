@@ -73,7 +73,7 @@ parts:
       - CFLAGS: "$CFLAGS -O2"
     override-pull: |
       snapcraftctl pull
-      snapcraftctl set-version $(grep AC_INIT configure.ac | grep -o '[0-9.]\+' | head -n1)-$(git branch --show-current)-$(git log -n 1 --format=%h)
+      snapcraftctl set-version $(grep AC_INIT configure.ac | grep -o '[0-9.]\+' | head -n1)-$(git log -n 1 --format=%h)
   command-chain:
     source: .
     plugin: dump
