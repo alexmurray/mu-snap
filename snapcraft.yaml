@@ -1,5 +1,6 @@
 name: maildir-utils
-base: core18
+base: core20
+version: 1.6.0
 summary: Maildir indexer/searcher with an Emacs UI
 description: |
   mu is a tool for dealing with e-mail messages stored in the
@@ -23,8 +24,7 @@ description: |
   * mu4e, an emacs-based e-mail client based on mu
 
 confinement: strict
-grade: devel
-adopt-info: mu
+grade: stable
 
 apps:
   mu:
@@ -43,8 +43,11 @@ apps:
 parts:
   mu:
     plugin: autotools
+    autotools-configure-parameters:
+      - --prefix=/
     source: https://github.com/djcb/mu
     source-type: git
+    source-branch: $SNAPCRAFT_PROJECT_VERSION
     build-packages:
       - intltool
       - autoconf
@@ -73,7 +76,6 @@ parts:
       - CFLAGS: "$CFLAGS -O2"
     override-pull: |
       snapcraftctl pull
-      snapcraftctl set-version $(grep AC_INIT configure.ac | grep -o '[0-9.]\+' | head -n1)-$(git log -n 1 --format=%h)
   command-chain:
     source: .
     plugin: dump
