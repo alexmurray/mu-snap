@@ -1,6 +1,6 @@
 name: maildir-utils
 base: core20
-version: 1.6.9
+version: 1.6.10
 summary: Maildir indexer/searcher with an Emacs UI
 description: |
   mu is a tool for dealing with e-mail messages stored in the
@@ -33,9 +33,9 @@ apps:
       - setup-env
     plugs:
       - home
-      - gpg-keys     # for gpg key access
+      - gpg-keys # for gpg key access
       - network-bind # for gpg-agent
-      - desktop      # for various pinentry frontends
+      - desktop # for various pinentry frontends
       - x11
       - wayland
       - password-manager-service # for pinentry-gnome3
@@ -83,25 +83,25 @@ parts:
       - setup-env
 # found with gpgconf --list-dirs
 layout:
- /etc/gnupg:
-   bind: $SNAP/etc/gnupg
- /usr/bin/dirmngr:
-   bind-file: $SNAP/usr/bin/dirmngr
- /usr/bin/gpg:
-   bind-file: $SNAP/usr/bin/gpg
- /usr/bin/gpg-agent:
-   bind-file: $SNAP/usr/bin/gpg-agent
- /usr/bin/gpg-connect-agent:
-   bind-file: $SNAP/usr/bin/gpg-connect-agent
- /usr/bin/gpgconf:
-   bind-file: $SNAP/usr/bin/gpgconf
- /usr/bin/gpgsm:
-   bind-file: $SNAP/usr/bin/gpgsm
- /usr/bin/gpgv:
-   bind-file: $SNAP/usr/bin/gpgv
- /usr/bin/pinentry:
-   bind-file: $SNAP/usr/bin/pinentry-gnome3
- /usr/lib/gnupg:
-   bind: $SNAP/usr/lib/gnupg
- /usr/share/gnupg:
-   bind: $SNAP/usr/share/gnupg
+  /etc/gnupg:
+    bind: $SNAP/etc/gnupg
+  /usr/bin/dirmngr:
+    bind-file: $SNAP/usr/bin/dirmngr
+  /usr/bin/gpg:
+    bind-file: $SNAP/usr/bin/gpg
+  /usr/bin/gpg-agent:
+    bind-file: $SNAP/usr/bin/gpg-agent
+  /usr/bin/gpg-connect-agent:
+    bind-file: $SNAP/usr/bin/gpg-connect-agent
+  /usr/bin/gpgconf:
+    bind-file: $SNAP/usr/bin/gpgconf
+  /usr/bin/gpgsm:
+    bind-file: $SNAP/usr/bin/gpgsm
+  /usr/bin/gpgv:
+    bind-file: $SNAP/usr/bin/gpgv
+  /usr/bin/pinentry:
+    bind-file: $SNAP/usr/bin/pinentry-gnome3
+  /usr/lib/gnupg:
+    bind: $SNAP/usr/lib/gnupg
+  /usr/share/gnupg:
+    bind: $SNAP/usr/share/gnupg
