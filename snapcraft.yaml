@@ -1,6 +1,6 @@
 name: maildir-utils
 base: core20
-version: 1.6.11
+version: 1.8.1
 summary: Maildir indexer/searcher with an Emacs UI
 description: |
   mu is a tool for dealing with e-mail messages stored in the
@@ -42,16 +42,13 @@ apps:
 
 parts:
   mu:
-    plugin: autotools
-    autotools-configure-parameters:
-      - --prefix=/
+    plugin: meson
     source: https://github.com/djcb/mu
     source-type: git
-    source-branch: $SNAPCRAFT_PROJECT_VERSION
+    source-tag: v$SNAPCRAFT_PROJECT_VERSION
+    meson-parameters:
+      - --prefix=/
     build-packages:
-      - intltool
-      - autoconf
-      - automake
       - libglib2.0-dev
       - libjson-glib-dev
       - libgmime-3.0-dev
