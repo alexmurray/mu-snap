@@ -1,5 +1,5 @@
 name: maildir-utils
-base: core20
+base: core24
 version: 1.12.13
 summary: Maildir indexer/searcher with an Emacs UI
 description: |
@@ -53,6 +53,7 @@ parts:
       - libjson-glib-dev
       - libgmime-3.0-dev
       - libxapian-dev
+      - meson
       - texinfo
     build-snaps:
       - emacs
@@ -69,10 +70,6 @@ parts:
       - gpgv
       - pinentry-gnome3
       - rsync
-    build-environment:
-      - CFLAGS: "$CFLAGS -O2"
-    override-pull: |
-      snapcraftctl pull
   command-chain:
     source: .
     plugin: dump
