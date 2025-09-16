@@ -1,6 +1,6 @@
 name: maildir-utils
 base: core20
-version: 1.12.11
+version: 1.12.13
 summary: Maildir indexer/searcher with an Emacs UI
 description: |
   mu is a tool for dealing with e-mail messages stored in the
